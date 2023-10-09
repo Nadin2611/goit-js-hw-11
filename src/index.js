@@ -9,9 +9,7 @@ const refs = {
   seachForm: document.getElementById('search-form'),
   seachInput: document.getElementById('search-input'),
   seachBtn: document.querySelector('button[type="submit"]'),
-  //   loadMoreBtn: document.querySelector('.load-more'),
   gallery: document.querySelector('.gallery'),
-  lastCard: document.querySelector('.photo-card:last-child'),
 };
 
 const scroll = new SmoothScroll('a[href*="#"]', {
@@ -30,9 +28,6 @@ refs.seachInput.addEventListener('input', handleInput);
 
 // Обробник події для сабміту форми
 refs.seachForm.addEventListener('submit', handleSubmit);
-
-//Обробник подій для кнопки "load-more"
-// refs.loadMoreBtn.addEventListener('click', loadMoreImage);
 
 //Функція для активації кнопки пошуку
 function handleInput() {
@@ -68,6 +63,7 @@ async function fetchImages(seachValue) {
         per_page: perPage,
       },
     });
+
     const images = response.data.hits;
     totalHits = response.data.totalHits;
 
@@ -79,14 +75,20 @@ async function fetchImages(seachValue) {
     } else {
       const markup = createMarkup(images);
       appendMarkupToGallery(markup);
+
+      const lastCard = document.querySelector('.photo-card:last-child');
+      const lastCardHeight = lastCard.offsetHeight;
+      window.scrollBy({
+        top: lastCardHeight,
+        behavior: 'smooth',
+      });
+
       initLightbox();
 
       currentPage += 1;
-      //   updateLoadMoreButton();
 
       Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
     }
-    // refs.loadMoreBtn.style.display = 'block';
   } catch (error) {
     console.error('Error:', error);
 
@@ -100,34 +102,6 @@ async function fetchImages(seachValue) {
 function appendMarkupToGallery(markup) {
   refs.gallery.insertAdjacentHTML('beforeend', markup);
 }
-
-// Функція для ініціалізації Lightbox
-function initLightbox() {
-  const lightbox = new SimpleLightbox('.gallery a', {
-    captionsData: 'alt',
-    captionDelay: 250,
-  });
-  lightbox.refresh();
-}
-
-// Функція для завантаження більше зображень
-// function loadMoreImage() {
-//   fetchImages(refs.seachInput.value.trim());
-// }
-
-//Функція для перевірки чи це не остання сторінка
-// function updateLoadMoreButton() {
-//   if (currentPage * perPage >= totalHits) {
-//     refs.loadMoreBtn.style.display = 'none';
-//     if (totalHits > 0) {
-//       Notiflix.Notify.info(
-//         "We're sorry, but you've reached the end of search results."
-//       );
-//     }
-//   } else {
-//     refs.loadMoreBtn.style.display = 'block';
-//   }
-// }
 
 // Функція для створення розмітки
 function createMarkup(arr) {
@@ -155,6 +129,15 @@ function createMarkup(arr) {
       </div>`
     )
     .join('');
+}
+
+// Функція для ініціалізації Lightbox
+function initLightbox() {
+  const lightbox = new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
+    captionDelay: 250,
+  });
+  lightbox.refresh();
 }
 
 // Обробник подій для прокручування сторінки
