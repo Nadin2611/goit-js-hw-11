@@ -1,7 +1,13 @@
 import Notiflix from 'notiflix';
 
 import { createMarkup, initLightbox } from './createmarkup.js';
-import { isSubmit, pixabayService } from './app.js';
+import {
+  isSubmit,
+  pixabayService,
+  loadMoreData,
+  setFirstLoad,
+  resetPage,
+} from './app.js';
 import { observer } from './observer.js';
 import refs from './refs.js';
 
@@ -20,9 +26,7 @@ export async function renderPage() {
     }
 
     if (isSubmit) {
-      Notiflix.Notify.success(
-        `Hooray! We found ${response.data.totalHits} images.`
-      );
+      displaySuccessMessage(response.data.totalHits);
     }
 
     if (response.data.totalHits > pixabayService.per_page) {
@@ -45,5 +49,14 @@ export async function renderPage() {
       Notiflix.Notify.failure(`Bad Request!`);
     }
     console.log(error);
+  }
+}
+
+let hasDisplayedMessage = false;
+
+function displaySuccessMessage(totalHits) {
+  if (!hasDisplayedMessage) {
+    Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+    hasDisplayedMessage = true;
   }
 }
