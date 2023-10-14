@@ -1,13 +1,7 @@
 import Notiflix from 'notiflix';
 
 import { createMarkup, initLightbox } from './createmarkup.js';
-import {
-  isSubmit,
-  pixabayService,
-  loadMoreData,
-  setFirstLoad,
-  resetPage,
-} from './app.js';
+import { isSubmit, pixabayService } from './app.js';
 import { observer } from './observer.js';
 import refs from './refs.js';
 
@@ -35,7 +29,13 @@ export async function renderPage() {
     gallery.insertAdjacentHTML('beforeend', createMarkup(response.data.hits));
     initLightbox();
 
-    if (Math.floor(response.data.totalHits / 40 + 1) === pixabayService.page) {
+    const totalPage = Math.ceil(
+      response.data.totalHits / pixabayService.per_page
+    );
+
+    console.log(totalPage);
+    console.log(pixabayService.page);
+    if (totalPage === pixabayService.page) {
       observer.unobserve(anchor);
       Notiflix.Notify.info(
         `We're sorry, but you've reached the end of search results.`
