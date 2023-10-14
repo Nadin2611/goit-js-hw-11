@@ -35,13 +35,13 @@ function handleSubmit(event) {
 }
 
 export function loadMoreData() {
+  renderPage();
+
   if (isFirstLoad) {
     return (isFirstLoad = false);
   }
   isSubmit = false;
   pixabayService.page += 1;
-
-  renderPage();
 
   autoScroll();
 }

@@ -28,6 +28,7 @@ export function createMarkup(arr) {
     )
     .join('');
   initLightbox();
+  lightbox.refresh();
 }
 
 // Функція для ініціалізації Lightbox
@@ -36,7 +37,6 @@ export function initLightbox() {
     captionsData: 'alt',
     captionDelay: 250,
   });
-  lightbox.refresh();
 }
 
 // Функція для автоскролу
