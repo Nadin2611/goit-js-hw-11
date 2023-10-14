@@ -20,6 +20,7 @@ export async function renderPage() {
     }
 
     if (isSubmit) {
+      hasDisplayedMessage = false;
       displaySuccessMessage(response.data.totalHits);
     }
 
@@ -33,8 +34,6 @@ export async function renderPage() {
       response.data.totalHits / pixabayService.per_page
     );
 
-    console.log(totalPage);
-    console.log(pixabayService.page);
     if (totalPage === pixabayService.page) {
       observer.unobserve(anchor);
       Notiflix.Notify.info(
