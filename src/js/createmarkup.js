@@ -39,6 +39,7 @@ export function initLightbox() {
   lightbox.refresh();
 }
 
+// Функція для автоскролу
 export function autoScroll() {
   const { height: cardHeight } = document
     .querySelector('.photo-card')

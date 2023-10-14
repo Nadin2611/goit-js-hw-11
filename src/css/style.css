@@ -38,7 +38,7 @@ body {
 
 /* Стилі для карточки фото */
 .photo-card {
-  width: 300px;
+  width: 250px;
   margin: 10px;
   border: 1px solid #ccc;
   padding: 10px;
