@@ -35,7 +35,10 @@ export async function renderPage() {
     gallery.insertAdjacentHTML('beforeend', createMarkup(response.data.hits));
     initLightbox();
 
-    if (Math.floor(response.data.totalHits / 40 + 1) === pixabayService.page) {
+    const totalPages = Math.ceil(
+      response.data.totalHits / pixabayService.per_page
+    );
+    if (pixabayService.page >= totalPages) {
       observer.unobserve(anchor);
       Notiflix.Notify.info(
         `We're sorry, but you've reached the end of search results.`
