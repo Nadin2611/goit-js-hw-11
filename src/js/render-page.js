@@ -20,7 +20,6 @@ export async function renderPage() {
     }
 
     if (isSubmit) {
-      hasDisplayedMessage = false;
       displaySuccessMessage(response.data.totalHits);
     }
 

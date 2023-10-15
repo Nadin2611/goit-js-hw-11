@@ -2,8 +2,9 @@ import { PixabayService } from './pixabay.js';
 import refs from './refs.js';
 import { renderPage } from './render-page.js';
 import { autoScroll } from './createmarkup.js';
+import Notiflix from 'notiflix';
 
-const { form, gallery } = refs;
+const { form, gallery, searchInput } = refs;
 export let isSubmit = true;
 let isFirstLoad = true;
 
@@ -11,6 +12,13 @@ export const pixabayService = new PixabayService(40);
 
 // Обробник події для сабміту форми
 form.addEventListener('submit', handleSubmit);
+
+// Обробник події для інтупу
+searchInput.addEventListener('input', () => {
+  if (searchInput.value === '  ') {
+    Notiflix.Notify.info('WARNING! Please enter text!');
+  }
+});
 
 // Функція для обробки сабміту форми
 function handleSubmit(event) {
