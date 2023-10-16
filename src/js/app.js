@@ -3,8 +3,9 @@ import refs from './refs.js';
 import { renderPage } from './render-page.js';
 import { autoScroll } from './createmarkup.js';
 import Notiflix from 'notiflix';
+import { observer } from './observer.js';
 
-const { form, gallery, searchInput } = refs;
+const { form, gallery, searchInput, anchor } = refs;
 export let isSubmit = true;
 let isFirstLoad = true;
 
@@ -25,6 +26,7 @@ function handleSubmit(event) {
   event.preventDefault();
   isFirstLoad = true;
   isSubmit = true;
+  observer.unobserve(anchor);
   gallery.innerHTML = '';
   pixabayService.page = 1;
 
