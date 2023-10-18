@@ -45,11 +45,12 @@ function handleSubmit(event) {
 }
 
 export function loadMoreData() {
-  pixabayService.page += 1;
-  renderPage();
   if (isFirstLoad) {
     return (isFirstLoad = false);
   }
+
+  pixabayService.page += 1;
+  renderPage();
   isSubmit = false;
 
   autoScroll();
